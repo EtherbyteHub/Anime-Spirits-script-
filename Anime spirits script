@@ -74,8 +74,11 @@ farmTab:AddToggle({
     Default = false,
     Callback = function(bool)
         autoDropdownFarm = bool
+        print("autoDropdownFarm:", autoDropdownFarm) -- Verify variable update
         if bool then -- Start autofarming with dropdown selection
             doautofarmDropdown()
+        else -- Stop autofarming when toggle is turned off
+            stopAutofarmDropdown() -- Add this function to stop autofarming
         end
     end
 })
