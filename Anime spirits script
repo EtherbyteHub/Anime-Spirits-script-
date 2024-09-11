@@ -1,0 +1,703 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+local Window = OrionLib:MakeWindow({Name = "Etherbyte hub", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
+
+local hubTab = Window:MakeTab({
+    Name = "Etherbyte Hub",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+
+local farmTab = Window:MakeTab({
+    Name = "Farm Tab", -- Renamed Tab
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local isFarming = false -- Use a local variable for clarity
+local autoDropdownFarm = false
+local selectedNpc = "Bandit"  -- Default NPC
+
+-- Create a dropdown for selecting NPCs within farmTab
+local npcDropdown = farmTab:AddDropdown({
+    Name = "Select NPC",
+    Default = selectedNpc,  -- Default value
+    Options = {
+        "Bandit",
+        "Monkey",
+        "Bandit Boss",
+"Axe Hand Morang",
+"Cursed Spirit",
+"Desert Bandit",
+"Desert Warrior",
+"Elite Officer",
+"Eneru",
+"Freezer Soilder",
+"Gojoh",
+"Gorilla",
+"Graa",
+"Itadoru",
+"King Gorilla",
+"Lord Beeros",
+"Marine Recruit",
+"Marine Swordsman",
+"Martial Artist",
+"Nanamo",
+"Naturo",
+"Night Guy",
+"Ninja",
+"Ninja Genin",
+"Ninja Trainee",
+"Noob Fighter",
+"Noob Officer",
+"Orochiramu",
+"Peeko",
+"Pirate",
+"Pirate Captain",
+"Sabaman",
+"Saian",
+"Skypiean",
+"Skypiean Guardian",
+"Snow Officer",
+"Son Oguk",
+        -- Add more NPCs as needed
+    },
+    Callback = function(value)
+        -- Store the selected NPC
+        selectedNpc = value
+    end
+})
+
+farmTab:AddToggle({
+    Name = "Enable Chosen npc Farm",
+    Default = false,
+    Callback = function(bool)
+        autoDropdownFarm = bool
+        if bool then -- Start autofarming with dropdown selection
+            doautofarmDropdown()
+        end
+    end
+})
+
+farmTab:AddToggle({
+    Name = "Enable farm(tp to every npc near u)!",
+    Default = false,
+    Callback = function(bool)
+        isFarming = bool
+        if bool then -- Start autofarming
+            doautofarm()
+        end
+    end
+})
+
+function doautofarm()
+    while isFarming do -- Use local variable here
+        local Char = game.Players.LocalPlayer.Character
+        local nearestNPC = nil
+        local nearestDistance = math.huge
+
+        for _, child in ipairs(workspace["NPC's"]:GetChildren()) do
+            if child:IsA("Model") and child:FindFirstChild("HumanoidRootPart") and child:FindFirstChild("Humanoid") and child.Humanoid.Health > 0 then
+                local NpcHrp = child.HumanoidRootPart
+                local distance = (Char.HumanoidRootPart.Position - NpcHrp.Position).magnitude
+                if distance < nearestDistance then
+                    nearestNPC = child
+                    nearestDistance = distance
+                end
+            end
+        end
+
+        if nearestNPC then
+            if nearestDistance > 10 then
+                Char.HumanoidRootPart.CFrame = nearestNPC.HumanoidRootPart.CFrame
+            end
+            
+        end
+        wait(0.1)
+    end
+end
+
+function doautofarmDropdown()
+    while autoDropdownFarm do
+        local Char = game.Players.LocalPlayer.Character
+        local foundNpc = false
+
+        for _, npc in ipairs(workspace["NPC's"]:GetChildren()) do
+            if npc:IsA("Model") and npc:FindFirstChild("HumanoidRootPart") and npc.Humanoid.Health > 0 then
+                if npc.Name == selectedNpc then
+                    -- Move to the selected NPC
+                    Char.HumanoidRootPart.CFrame = npc.HumanoidRootPart.CFrame
+                    foundNpc = true
+                    break
+                end
+            end
+        end
+
+        -- If no NPC with the selected name is found, find any valid NPC
+        if not foundNpc then
+            for _, npc in ipairs(workspace["NPC's"]:GetChildren()) do
+                if npc:IsA("Model") and npc:FindFirstChild("HumanoidRootPart") and npc.Humanoid.Health > 0 then
+                    -- Move to any valid NPC
+                    Char.HumanoidRootPart.CFrame = npc.HumanoidRootPart.CFrame
+                    foundNpc = true
+                    break
+                end
+            end
+        end
+
+        if foundNpc then
+            end
+
+        wait(0.1)
+    end
+end
+
+--main farm stuff
+local teleportTab = Window:MakeTab({
+    Name = "teleports",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+teleportTab:AddButton({
+Name = "Dawn island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-15.6183157, 0.245347008, -329.2052, -0.585310936, 0.00391013455, -0.810799479, 0.00131589861, 0.999991655, 0.00387258781, 0.810807824, 0.00119973824, -0.585311174)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "Desert island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1656.86951, -0.0427427292, 1732.35083, 0.701691926, 0, 0.712480485, 0, 1, 0, -0.712480485, 0, 0.701691926)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "Doflamingo island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(4406.60059, 13.3766479, -6646.26025, 0.614195466, 0, 0.789153934, 0, 1, 0, -0.789153934, 0, 0.614195466)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "Forest island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(971.275452, -0.510741234, 3175.21997, 0.512057304, 0, 0.858951271, 0, 1, 0, -0.858951271, 0, 0.512057304)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "JJK island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1634.95532, -1.04166985, 3367.53711, 0.605579495, -0, -0.795784831, 0, 1, -0, 0.795784831, 0, 0.605579495)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "Marine island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1974.1947, -4.0326252, -2476.96997, 0.470710933, 0, 0.882287621, 0, 1, 0, -0.882287621, 0, 0.470710933)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "snow island",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(4949.55859, 1.29931068, -3982.32349, -0.615635157, 0, -0.788031757, 0, 1, 0, 0.788031757, 0, -0.615635157)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "floating building ",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(6887.14111, 716.07666, -457.820343, 0.512057304, 0, 0.858951271, 0, 1, 0, -0.858951271, 0, 0.512057304)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "hidden village",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(3088.63843, 13.0846157, -32.7385864, -0.54754436, 0, 0.836777091, 0, 1, 0, -0.836777091, 0, -0.54754436)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "Shibuyo incident",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1965.39185, -4.25690889, -9603.23438, 0.104889452, -0.0013025353, -0.994483173, -0.000660932972, 0.999998808, -0.00137946918, 0.994483769, 0.000801978633, 0.104888499)
+    wait()
+    print("button pressed")
+end
+})
+
+teleportTab:AddButton({
+Name = "skypeia ",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-3801.80884, 1381.07666, 1482.20959, 0.512057304, 0, 0.858951271, 0, 1, 0, -0.858951271, 0, 0.512057304)
+    wait()
+    print("button pressed")
+end
+})
+teleportTab:AddButton({
+Name = "west city",
+Callback = function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(337.616058, 32.2365112, -6054.4917, -0.960307002, 0, -0.278945118, 0, 1, 0, 0.278945118, 0, -0.960307002)
+    wait()
+    print("button pressed")
+end
+})
+
+
+--auto quest stuff
+-- auto quest variables
+getgenv().selectedQuest = "Quest Giver 1"
+getgenv().autoQuest = false
+
+function doQuest()
+    spawn(function()
+        while getgenv().autoQuest do
+            -- Debugging: Check if the quest is selected and executed
+            print("Selected Quest: ", getgenv().selectedQuest) -- Debug line
+
+            -- Ensure selectedQuest is not nil or empty
+            if getgenv().selectedQuest and getgenv().selectedQuest ~= "" then
+                local args = {
+                    [1] = "InteractControl",
+                    [2] = getgenv().selectedQuest -- This now refers to the selected quest
+                }
+
+                game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+            else
+                print("No quest selected!") -- Another debug line
+            end
+
+            wait(0.1)
+        end
+    end)
+end
+
+farmTab:AddDropdown({
+    Name = "Select Quest",
+    Default = "Quest Giver 1",
+    Options = {
+        "Quest Giver 1", "Quest Giver 2", "Quest Giver 3", "Quest Giver 4", "Quest Giver 5", 
+        "Quest Giver 6", "Quest Giver 7", "Quest Giver 8", "Quest Giver 9",
+        "Quest Giver 10", "Quest Giver 11", "Quest Giver 12", "Quest Giver 13", 
+        "Quest Giver 14", "Quest Giver 15", "Quest Giver 16", "Quest Giver 17",
+        "Quest Giver 18", "Quest Giver 19", "Quest Giver 20", "Quest Giver 21",
+        "Quest Giver 22", "Quest Giver 23", "Quest Giver 24", "Quest Giver 25",
+        "Quest Giver 26", "Quest Giver 27", "Quest Giver 28", "Quest Giver 29",
+        "Quest Giver 30", "Quest Giver 31", "Quest Giver 32", "Quest Giver 33",
+        "Quest Giver 34", "Quest Giver 35", "Quest Giver 36", "Quest Giver 37",
+        "Quest Giver 38", "Quest Giver 39", "Quest Giver 40", "Quest Giver 41", "Quesy Giver 42"
+    },
+    Callback = function(value)
+        -- Store the selected quest and print it for debugging
+        getgenv().selectedQuest = value
+        print("Quest selected: ", getgenv().selectedQuest) -- Debug line
+    end    
+})
+
+farmTab:AddToggle({
+    Name = "Auto Take Selected Quest", -- Changed to 'Auto Take Selected Quest'
+    Default = false,
+    Callback = function(bool)
+        getgenv().autoQuest = bool
+        if bool then
+            -- Start taking the selected quest
+            doQuest()
+        end
+    end    
+})
+
+
+
+
+-- Variables
+local autoFarmChests = false
+local teleportToChestsThread
+
+-- Create a tab for farming options
+local ChestTab = Window:MakeTab({
+    Name = "Chest tab",
+    Icon = "rbxassetid://4483345998",  -- You can set your own icon
+    PremiumOnly = false
+})
+
+-- Function to teleport to all chests in the workspace
+local function teleportToChests()
+    local rootpart = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+    while autoFarmChests do
+        -- Loop through all children in the workspace
+        for _, v in pairs(workspace:GetChildren()) do
+            -- Check if the child is named "Chest" and is a BasePart (such as a physical object)
+            if v:IsA("BasePart") and v.Name == "Chest" then
+                -- Teleport the player's character to the chest's position
+                rootpart.CFrame = v.CFrame
+                wait(0.2)  -- Wait before teleporting to the next chest
+            end
+        end
+        wait(0.5)  -- Wait a bit before restarting the chest check
+    end
+end
+
+-- Toggle for auto farming chests
+ChestTab:AddToggle({
+    Name = "Auto Farm Chests",
+    Default = false,
+    Callback = function(value)
+        autoFarmChests = value
+        if autoFarmChests then
+            -- Start the teleportToChests function when the toggle is enabled
+            teleportToChestsThread = spawn(teleportToChests)
+        else
+            -- Stop the teleportToChests function when the toggle is disabled
+            if teleportToChestsThread then
+                teleportToChestsThread:Kill()
+                teleportToChestsThread = nil
+            end
+        end
+    end
+})
+--fruit Tab stuff
+
+-- ... (rest of the script remains the same)
+
+-- Create a tab for farming options
+local fruitTab = Window:MakeTab({
+    Name = "Soul",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Variables
+local twentyFiveKsoul = false
+local oneTwentyFiveKsoul = false
+local twoFiftyKsoul = false
+
+-- Functions for fruit Tab
+function do25ksoul()
+    while twentyFiveKsoul do
+        local args = {
+            [1] = "SoulsDealer",
+            [2] = "G$25k 1 Soul"
+        }
+        
+        game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+        
+        wait(3)
+    end
+end
+
+function do125ksoul()
+    while oneTwentyFiveKsoul do
+        local args = {
+            [1] = "SoulsDealer",
+            [2] = "G$125k 1 Soul"
+        }
+        
+        game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+        
+        wait(3)
+    end
+end
+
+function do250ksoul()
+    while twoFiftyKsoul do
+        local args = {
+            [1] = "SoulsDealer",
+            [2] = "G$250k 1 Soul"
+        }
+        
+        game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+        
+        wait(3)
+    end
+end
+
+-- Toggling functions
+fruitTab:AddToggle({
+    Name = "Auto open 25k soul!",
+    Default = false,
+    Callback = function(bool)
+        twentyFiveKsoul = bool
+        if bool then
+            do25ksoul()
+        end
+    end
+})
+
+fruitTab:AddToggle({
+    Name = "Auto open 125k soul!",
+    Default = false,
+    Callback = function(bool)
+        oneTwentyFiveKsoul = bool
+        if bool then
+            do125ksoul()
+        end
+    end
+})
+
+fruitTab:AddToggle({
+    Name = "Auto open 250k soul!",
+    Default = false,
+    Callback = function(bool)
+        twoFiftyKsoul = bool
+        if bool then
+            do250ksoul()
+        end
+    end
+})
+
+-- Create a tab for Stats
+local StatsTab = Window:MakeTab({
+    Name = "Stats",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Variables
+local selectedStat = "Strength"
+local autoAddStat = false
+
+-- Dropdown for selecting the stat
+StatsTab:AddDropdown({
+    Name = "Select Stat",
+    Default = selectedStat,
+    Options = {
+        "Strength",
+        "Soul",
+        "Defense",
+        "Sword"
+    },
+    Callback = function(value)
+        selectedStat = value
+    end
+})
+
+-- Function to add points to the selected stat
+function addStatPoints()
+    while autoAddStat do
+        local args = {
+            [1] = "AddPoints",
+            [2] = selectedStat,
+            [3] = 1
+        }
+        
+        game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+        
+        wait(0.1)
+    end
+end
+
+-- Toggle for auto adding stat points
+StatsTab:AddToggle({
+    Name = "Auto Add Stat Points",
+    Default = false,
+    Callback = function(bool)
+        autoAddStat = bool
+        if bool then
+            addStatPoints()
+        end
+    end
+})
+
+StatsTab:AddButton({
+Name = "Stat Reset(100 gems)",
+Callback = function()
+     local args = {
+    [1] = "ResetStats"
+}
+
+game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+
+    print("button pressed")
+end
+})
+
+-- Create a tab for farming options
+local fruitTab2 = Window:MakeTab({
+    Name = "Fruit",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Variables
+local autoFarmFruits = false
+
+-- Function to teleport to random fruit spawns
+local function teleportToRandomFruit()
+    local rootpart = game.Players.LocalPlayer.Character.HumanoidRootPart
+    local fruitSpawns = workspace.FruitSpawns:GetChildren()
+    local fruitCollected = false
+
+    while autoFarmFruits and not fruitCollected do
+        if #fruitSpawns > 0 then
+            local randomIndex = math.random(#fruitSpawns)
+            local fruitSpawn = fruitSpawns[randomIndex]
+
+            if fruitSpawn:IsA("BasePart") then
+                rootpart.CFrame = fruitSpawn.CFrame
+                wait(2) -- Add a 1-second delay to give the player time to collect the fruit
+
+                -- Check if the player has collected a fruit
+                local character = game.Players.LocalPlayer.Character
+                for _, child in pairs(character:GetChildren()) do
+                    if child:IsA("Tool") and child.Name == "Fruit" then
+                        fruitCollected = true
+                        break
+                    end
+                end
+            end
+        else
+            print("No fruit spawns found!")
+            break
+        end
+    end
+end
+
+-- Toggle for auto farming fruits
+fruitTab2:AddToggle({
+    Name = "Auto Farm Fruits",
+    Default = false,
+    Callback = function(value)
+        autoFarmFruits = value
+        if value then
+            -- Start the teleportToRandomFruit function when the toggle is enabled
+            teleportToRandomFruit()
+        end
+    end
+})
+
+-- Variables
+local autoFarmSouls = false
+
+-- Function to teleport to soul spawns
+local function teleportToSouls()
+    local rootpart = game.Players.LocalPlayer.Character.HumanoidRootPart
+
+    while autoFarmSouls do
+        for _, v in pairs(workspace.SoulsSpawns:GetChildren()) do
+            if v:IsA("BasePart") then
+                rootpart.CFrame = v.CFrame
+                wait(0.2)
+            end
+        end
+    end
+end
+
+-- Add a toggle to the Fruit tab
+fruitTab:AddToggle({
+    Name = "Auto Farm Souls",
+    Default = false,
+    Callback = function(bool)
+        autoFarmSouls = bool
+        if bool then
+            teleportToSouls()
+        end
+    end
+})
+
+local Discord = hubTab:AddSection({Name="Join Our Discord!"});
+local Discord = hubTab:AddSection({Name="Need help? Join our discord to report bugs!!"});
+
+Discord:AddButton({
+  Name = "Copy Discord link",
+  Callback = function()
+      setclipboard("https://discord.gg/NFxX3eC6")
+      print("Discord link copied to clipboard")
+  end    
+})
+
+Discord:AddButton({
+  Name = "Copy Youtube link ",
+  Callback = function()
+      setclipboard("https://youtube.com/@etherbytehub?si=N12iaUbGqpCA-1YB")
+      print("Discord link copied to clipboard")
+  end    
+})
+
+fruitTab:AddButton({
+Name = "Soul Reset(150 gems)",
+Callback = function()
+     local args = {
+    [1] = "ResetSoul"
+}
+
+game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+
+    print("button pressed")
+end
+})
+
+
+-- Variables
+local selectedFightingStyle = "Combat"  -- Default fighting style
+local autoUseStyle = false
+
+-- Create a dropdown for selecting fighting styles
+local styleDropdown = farmTab:AddDropdown({
+    Name = "Select Fighting Style",
+    Default = selectedFightingStyle,  -- Default value
+    Options = {
+        "Combat",
+        "Lucco",
+        "CidSword",
+        -- Add more fighting styles as needed
+    },
+    Callback = function(value)
+        selectedFightingStyle = value
+    end
+})
+
+-- Function to use the selected fighting style
+function useFightingStyle()
+    local args = {
+        [1] = "CombatControl",
+        [2] = selectedFightingStyle,  -- Use the selected fighting style
+        [3] = 1,
+        [4] = false
+    }
+
+    game:GetService("ReplicatedStorage").Game.Remotes.ServerHandler:FireServer(unpack(args))
+end
+
+-- Toggle to enable the chosen fighting style
+farmTab:AddToggle({
+    Name = "Auto Use Selected Fighting Style",
+    Default = false,
+    Callback = function(bool)
+        autoUseStyle = bool
+        if bool then
+            spawn(function()
+                while autoUseStyle do
+                    useFightingStyle()
+                    wait(1)  -- Adjust the wait time as needed
+                end
+            end)
+        end
+    end
+})
+
+local Discord = hubTab:AddSection({Name="Helper - fahadaomk🗿 "});
