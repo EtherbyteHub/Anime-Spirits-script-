@@ -61,7 +61,7 @@ local npcDropdown = farmTab:AddDropdown({
 "Skypiean Guardian",
 "Snow Officer",
 "Son Oguk",
-        -- Add more NPCs as needed
+        
     },
     Callback = function(value)
         -- Store the selected NPC
